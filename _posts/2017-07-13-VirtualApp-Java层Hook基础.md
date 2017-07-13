@@ -10,13 +10,13 @@ keywords: Android, 插件化, VirtualApp
 
 Hook技术是VirtualApp(后续简称VA)的核心实现原理之一。
 
-## 0x00. 什么是Hook
+## 一. 什么是Hook
 
 > Hook是Windows中提供的一种用以替换DOS下“中断”的系统机制，中文译为“挂钩”或“钩子”。在对特定的系统事件进行hook后，一旦发生已hook事件，对该事件进行hook的程序就会收到系统的通知，这时程序就能在第一时间对该事件做出响应。 -- 来自[百度百科](http://baike.baidu.com/item/hook/19512231)
 
 在Android插件化中的Hook机制一般是通过反射注入和动态代理来实现的。
 
-## 0x01. Hook实现
+## 二. Hook实现
 
 Android中的Hook本身依赖反射机制，VA的Hook框架基于注解的反射注入技术实现的极为优雅，初看源码可能会不知所云，深入研究就会发现VA虽然模拟了整个AndroidFramework，Hook了大量对象，代码却依然井井有条。
 
@@ -47,7 +47,7 @@ frameworks/base/core/java/android/app/
  - ActivityThread.java
 ```
 
-### ActivityThread的反射注入-普通实现
+### 1. ActivityThread的反射注入-普通实现
 
 ```java
 public class PluginInstrumentation extends Instrumentation {
@@ -78,9 +78,9 @@ public class HookHelper {
 }
 ```
 
-### ActivityThread的反射注入-VA实现
+### 2. ActivityThread的反射注入-VA实现
 
-#### 原理介绍
+#### 1. 原理介绍
 
 > mirror/MethodParams.java
 
@@ -339,7 +339,7 @@ public class RefConstructor<T> {
 }
 ```
 
-#### VA实例
+#### 2. VA实例
 
 对应[ActivityThread的反射注入-普通实现](#ActivityThread的反射注入-普通实现)，在VA中的反射注入实现:
 
@@ -394,11 +394,11 @@ public final class AppInstrumentation extends InstrumentationDelegate implements
 }
 ```
 
-## 0x02. 总结
+## 三. 总结
  
 对比[ActivityThread的反射注入-普通实现](#ActivityThread的反射注入-普通实现)和[ActivityThread的反射注入-VA实现](#ActivityThread的反射注入-VA实现)，初一看，可能觉得VA实现多了很多代码，还有些绕；但是普通方法实现，每对一个属性进行反射注入都需要写下方流程中的所有代码，或者部分代码；通过VA的实现方法，只需要在对应的类中(例如: `mirror.android.app.ActivityThread`)写上需要反射注入的属性，业务层代码也更简洁可读性更高。
 
-### 反射注入的一般流程
+### 1. 反射注入的一般流程
 
 1. 获取需要注入的类的Class对象
 
@@ -412,7 +412,7 @@ public final class AppInstrumentation extends InstrumentationDelegate implements
 
 `instrumentationField.set(currentActivityThread, new PluginInstrumentation(instrumentation));`
 
-### 反射调用方法的一般流程
+### 2. 反射调用方法的一般流程
 
 1. 获取需要注入的类的Class对象
 
