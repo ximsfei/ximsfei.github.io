@@ -1,7 +1,7 @@
 ---
 layout: post
 title: VirtualApp Java层Hook基础
-categories: [Android, 插件化]
+categories: [Android, 插件化, VirtualApp]
 description: 反射注入
 keywords: Android, 插件化, VirtualApp
 ---
