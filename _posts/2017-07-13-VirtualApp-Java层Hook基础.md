@@ -47,7 +47,7 @@ frameworks/base/core/java/android/app/
  - ActivityThread.java
 ```
 
-### 1. ActivityThread的反射注入-普通实现
+### 2.1. ActivityThread的反射注入-普通实现
 
 ```java
 public class PluginInstrumentation extends Instrumentation {
@@ -78,9 +78,9 @@ public class HookHelper {
 }
 ```
 
-### 2. ActivityThread的反射注入-VA实现
+### 2.2. ActivityThread的反射注入-VA实现
 
-#### 1. 原理介绍
+#### 2.2.1. 原理介绍
 
 > mirror/MethodParams.java
 
@@ -398,7 +398,7 @@ public final class AppInstrumentation extends InstrumentationDelegate implements
  
 对比[ActivityThread的反射注入-普通实现](#ActivityThread的反射注入-普通实现)和[ActivityThread的反射注入-VA实现](#ActivityThread的反射注入-VA实现)，初一看，可能觉得VA实现多了很多代码，还有些绕；但是普通方法实现，每对一个属性进行反射注入都需要写下方流程中的所有代码，或者部分代码；通过VA的实现方法，只需要在对应的类中(例如: `mirror.android.app.ActivityThread`)写上需要反射注入的属性，业务层代码也更简洁可读性更高。
 
-### 1. 反射注入的一般流程
+### 3.1. 反射注入的一般流程
 
 1. 获取需要注入的类的Class对象
 
@@ -412,7 +412,7 @@ public final class AppInstrumentation extends InstrumentationDelegate implements
 
 `instrumentationField.set(currentActivityThread, new PluginInstrumentation(instrumentation));`
 
-### 2. 反射调用方法的一般流程
+### 3.2. 反射调用方法的一般流程
 
 1. 获取需要注入的类的Class对象
 
